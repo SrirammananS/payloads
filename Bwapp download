@@ -1,0 +1,25 @@
+# Create a directory for BApps
+mkdir -Path "bapps" -Force
+
+# Fetch the BApp list and parse the IDs and names
+$BAppList = Invoke-WebRequest -Uri "https://portswigger.net/bappstore" | 
+    Select-String -Pattern 'bapp-label heading-4' |
+    ForEach-Object {
+        $_.ToString() -match 'href="/bappstore/bapps/(.*?)".*?>(.*?)<' | Out-Null
+        [PSCustomObject]@{
+            ID   = $Matches[1]
+            Name = $Matches[2]
+        }
+    }
+
+# Download each BApp
+foreach ($BApp in $BAppList) {
+    $BAppNameSanitized = $BApp.Name -replace '[^a-zA-Z0-9]', '_'
+    $OutputFile = "bapps/$BAppNameSanitized.bapp"
+    Write-Host "Downloading $($BApp.Name)..."
+
+    Invoke-WebRequest -Uri "https://portswigger-cdn.net/bappstore/bapps/download/$($BApp.ID)" `
+        -OutFile $OutputFile
+}
+
+Write-Host "All BApps downloaded to the 'bapps' directory."
