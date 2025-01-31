@@ -4,3 +4,15 @@ You can download the MagiskTrustUserCerts module here: https://github.com/NVISOs
 And you can download the Frida server here: https://github.com/frida/frida
 
 Download rootAVD here: https://gitlab.com/newbit/rootAVD
+
+1. Frida ( https://frida.re/ )
+2. Burp Suite ( https://portswigger.net/burp )
+3. MobSF ( https://github.com/MobSF/Mobile-Security-Framework-MobSF )
+4. ADB ( https://developer.android.com/tools/adb )
+5. JADX ( https://github.com/skylot/jadx )
+6. Drozer ( https://github.com/WithSecureLabs/drozer )
+7. Xcode ( https://developer.apple.com/xcode/ )
+8. node-applesign ( https://github.com/nowsecure/node-applesign )
+9. ios-deploy ( https://github.com/ios-control/ios-deploy )
+10. Hopper ( https://www.hopperapp.com/ )
+11. Ghidra ( https://ghidra-sre.org/ )
