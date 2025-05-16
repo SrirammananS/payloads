@@ -25,3 +25,30 @@
     </svg>
     ```
     Once we upload the image to the web application, the XSS payload will be triggered whenever the image is displayed.
+
+## XEE:
+
+- With SVG images, we can also include malicious XML data to leak the source code of the web application, and other internal documents within the server.
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE svg [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+  <svg>&xxe;</svg>
+  ```
+  Once the above SVG image is uploaded and viewed, the XML document would get processed, and we should get the info of (/etc/passwd) printed on the page or shown in the page source.
+
+- To use XXE to read source code in PHP web applications
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE svg [ <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=index.php"> ]>
+  <svg>&xxe;</svg>
+  ```
+  Once the SVG image is displayed, we should get the base64 encoded content of index.php, which we can decode to read the source code.
+
+- Using XML data is not unique to SVG images, as it is also utilized by many types of documents, like PDF, Word Documents, PowerPoint Documents, among many others. All of these documents include XML data within them to specify their format and structure. Suppose a web application used a document viewer that is vulnerable to XXE and allowed uploading any of these documents. In that case, we may also modify their XML data to include the malicious XXE elements, and we would be able to carry a blind XXE attack on the back-end web server.
+- Another similar attack that is also achievable through these file types is an SSRF attack. We may utilize the XXE vulnerability to enumerate the internally available services or even call private APIs to perform private actions. For more about SSRF, you may refer to the Server-side Attacks module.
+
+## DoS
+- **Decompression Bomb** : If a web application automatically unzips a ZIP archive, it is possible to upload a malicious archive containing nested ZIP archives within it, which can eventually lead to many Petabytes of data, resulting in a crash on the back-end server.
+- **Pixel Flood** : We can create any JPG image file with any image size (e.g. 500x500), and then manually modify its compression data to say it has a size of (0xffff x 0xffff), which results in an image with a perceived size of 4 Gigapixels. When the web application attempts to display the image, it will attempt to allocate all of its memory to this image, resulting in a crash on the back-end server.
+- If the upload function is vulnerable to directory traversal, we may also attempt uploading files to a different directory (e.g. ../../../etc/passwd), which may also cause the server to crash. 
+
