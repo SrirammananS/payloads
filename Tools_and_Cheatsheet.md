@@ -10,22 +10,55 @@
 - Phpbash-Interactive web shell: https://github.com/Arrexel/phpbash
 - Php reverse Shell: https://github.com/pentestmonkey/php-reverse-shell
 - All web and Reverse Shell: https://github.com/danielmiessler/SecLists/tree/master/Web-Shells
-  ### Blacklist Bypass
+- Bash script that generates all permutations of the file name
+  ```bash
+  for char in '%20' '%0a' '%00' '%0d0a' '/' '.\\' '.' '…' ':'; do
+    for ext in '.php' '.phps'; do
+        echo "shell$char$ext.jpg" >> wordlist.txt
+        echo "shell$ext$char.jpg" >> wordlist.txt
+        echo "shell.jpg$char$ext" >> wordlist.txt
+        echo "shell.jpg$ext$char" >> wordlist.txt
+    done
+  done
+  ```
+---
+### Blacklist Bypass
 
-  | File Extension	| Purpose |
-  | ---------- | ----------- |
-  | shell.pHp	| Case Manipulation |
-  | [PHP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst)	| List of PHP Extensions |
-  | [ASP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP)	| List of ASP Extensions |
-  | [Web Extensions](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt)	| List of Web Extensions |
+| File Extension	| Purpose |
+| ---------- | ----------- |
+| shell.phtml |	Uncommon Extension |
+| shell.pHp	| Case Manipulation |
+| [PHP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst)	| List of PHP Extensions |
+| [ASP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP)	| List of ASP Extensions |
+| [Web Extensions](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt)	| List of Web Extensions |
 
-  ### Whitelist Bypass
-  
-  | File Extension	| Purpose |
-  | ---------- | ----------- |
-  | shell.jpg.php	| Double Extension |
-  | shell.php.jpg	| Reverse Double Extension |
-  | %20, %0a, %00, %0d0a, /, .\, ., … |	Character Injection - Before/After Extension |
+### Whitelist Bypass
+
+| File Extension	| Purpose |
+| ---------- | ----------- |
+| shell.jpg.php	| Double Extension |
+| shell.php.jpg	| Reverse Double Extension |
+| %20, %0a, %00, %0d0a, /, .\, ., … |	Character Injection - Before/After Extension |
+
+### Content/Type Bypass
+| File Extension	| Purpose |
+| ---------- | ----------- |
+| [Web Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Miscellaneous/web/content-type.txt)	| List of Web Content-Types |
+| [Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-all-content-types.txt)	| List of All Content-Types |
+| [File Signatures](https://en.wikipedia.org/wiki/List_of_file_signatures)	| List of File Signatures/Magic Bytes |
+| [Magic Bytes](https://web.archive.org/web/20240522030920/https://opensource.apple.com/source/file/file-23/file/magic/magic.mime) | Link for Magicbytes |
+| [File Signature](https://en.wikipedia.org/wiki/List_of_file_signatures) | Link for File Signatures |
+
+### Limited Uploads
+| Potential Attack |	File Types |
+| ---------- | ----------- |
+| XSS	| HTML, JS, SVG, GIF |
+| XXE/SSRF	| XML, SVG, PDF, PPT, DOC |
+| DoS	| ZIP, JPG, PNG |
+
+---
+
+
 
 ## Arbitary file uploads
 https://enterprise.hackthebox.com/academy-lab/30000/2125/modules/136/1291
